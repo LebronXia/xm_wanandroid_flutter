@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:xm_wanandroid_flutter/app/ui/home_page.dart';
+import 'package:xm_wanandroid_flutter/app/ui/home/home_list_page.dart';
 import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
 
 import '../ui/main_page.dart';

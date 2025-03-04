@@ -10,14 +10,14 @@ import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/home_vm.dart';
 import 'package:xm_wanandroid_flutter/domin/home_list_data.dart';
 
-class HomePage extends StatefulWidget {
+class HomeListPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _HomePageState();
   }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomeListPage> {
   HomeViewModel viewModel = HomeViewModel();
 
   @override

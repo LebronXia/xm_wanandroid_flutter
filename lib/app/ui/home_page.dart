@@ -1,10 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
+import 'package:provider/provider.dart';
 import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
 import 'package:xm_wanandroid_flutter/app/route/routes.dart';
 import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
+import 'package:xm_wanandroid_flutter/app/viewmodel/home_vm.dart';
+import 'package:xm_wanandroid_flutter/domin/home_list_data.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,46 +18,93 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  HomeViewModel viewModel = HomeViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    //viewModel.getBanner();
+    viewModel.getHomeList();
+    getList();
+  }
+
+  void getList(){
+    Dio dio = Dio();
+    dio.options.baseUrl = 'https://www.wanandroid.com/'; // 设置baseUrl
+
+    dio.get('banner/json').then((response) {
+      print(response.data);
+    }).catchError((error) {
+      print("Error: $error");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _banner(),
-              ListView.builder(
-                shrinkWrap: true, //让布局知道高度
-                physics: NeverScrollableScrollPhysics(), //禁止listView滑动
-                itemBuilder: (context, index) {
-                  return _listItem();
-                },
-                itemCount: 100,
-              ),
-            ],
+    return ChangeNotifierProvider<HomeViewModel>(
+      create: (context) {
+        return viewModel;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _banner(),
+                _homeListView()
+                ,
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _banner(){
-    return SizedBox(
-      height: 150.h,
-      width: double.infinity,
-      child: Swiper(
-        indicatorLayout: PageIndicatorLayout.NONE,
-        pagination: const SwiperPagination(),
-        autoplay: true,
-        itemBuilder: (context, index) {
-          return Container(height: 150.h, color: Colors.lightBlue);
-        },
-        itemCount: 10,
-      ),
+  Widget _banner() {
+    return Consumer<HomeViewModel>(
+      builder: (context, vm, child) {
+        return SizedBox(
+          height: 150.h,
+          width: double.infinity,
+          child: Swiper(
+            indicatorLayout: PageIndicatorLayout.NONE,
+            pagination: const SwiperPagination(),
+            autoplay: true,
+            itemBuilder: (context, index) {
+              return Container(
+                height: 150.h,
+                color: Colors.lightBlue,
+                child: Image.network(vm.bannerList?[index].imagePath ?? "", fit: BoxFit.fill,),
+              );
+            },
+            itemCount: vm.bannerList?.length ?? 0,
+          ),
+        );
+      },
     );
   }
 
-  Widget _listItem() {
+  Widget _homeListView(){
+    return Consumer<HomeViewModel>(builder: (context, vm, child){
+      return ListView.builder(
+        shrinkWrap: true, //让布局知道高度
+        physics: NeverScrollableScrollPhysics(), //禁止listView滑动
+        itemBuilder: (context, index) {
+          return _listItem(vm.listData?[index]);
+        },
+        itemCount: vm.listData?.length ?? 0,
+      );
+    });
+  }
+
+  Widget _listItem(HomeListItemData? item) {
+    var name;
+    if(item?.author?.isNotEmpty == true){
+      name =  item?.author ?? "";
+    } else {
+      name = item?.shareUser ?? "";
+    }
     return GestureDetector(
       onTap: () {
         RouteUtils.pushForNamed(
@@ -74,6 +125,7 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.all(Radius.circular(6.r)),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -88,11 +140,11 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 3),
-                  child: Text("作者", style: TextStyle(color: Colors.black)),
+                  child: Text(name, style: TextStyle(color: Colors.black)),
                 ),
 
                 Expanded(child: SizedBox()),
-                Text("2024-12-12", style: TextStyle(color: Colors.blue)),
+                Text(item?.niceShareDate ?? "", style: TextStyle(color: Colors.blue)),
                 SizedBox(width: 5.w),
                 Text(
                   "置顶",
@@ -103,10 +155,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            Text("标题标题标题标题标题标题标题标题标题标题标题标题"),
+            Text(item?.title ?? ""),
             Row(
               children: [
-                Text("分类"),
+                Text(item?.chapterName ?? ""),
                 Expanded(child: SizedBox()),
                 Image.asset(
                   "assets/images/img_collect_grey.png",

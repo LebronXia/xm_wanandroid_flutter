@@ -15,12 +15,14 @@ class Api {
     return bannerData.bannerList;
   }
 
-  Future<List<HomeListItemData>?> getHomeList() async{
-    Response response = await DioInstance.instance().get(path: "article/list/1/json");
+  //获取首页数据
+  Future<List<HomeListItemData>?> getHomeList(String pageCount) async{
+    Response response = await DioInstance.instance().get(path: "article/list/$pageCount/json");
     HomeListData homeData = HomeListData.fromJson(response.data);
     return homeData.datas;
   }
 
+  //获取顶部数据
   Future<List<HomeListItemData>?> getHomeTopList() async{
     Response response = await DioInstance.instance().get(path: "article/top/json");
     HomeTopListData homeData = HomeTopListData.fromJson(response.data);

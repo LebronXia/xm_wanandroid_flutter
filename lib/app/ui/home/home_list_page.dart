@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
 import 'package:xm_wanandroid_flutter/app/route/routes.dart';
 import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/home_vm.dart';
 import 'package:xm_wanandroid_flutter/domin/home_list_data.dart';
+
+import '../../../widgets/smart_refresh/smart_refresh_widget.dart';
 
 class HomeListPage extends StatefulWidget {
   @override
@@ -19,25 +22,37 @@ class HomeListPage extends StatefulWidget {
 
 class _HomePageState extends State<HomeListPage> {
   HomeViewModel viewModel = HomeViewModel();
+  RefreshController refreshController = RefreshController();
 
   @override
   void initState() {
     super.initState();
-    //viewModel.getBanner();
-    viewModel.getHomeList();
-    getList();
+    viewModel.getBanner();
+    viewModel.initListData(false);
+    //getList();
   }
 
-  void getList(){
-    Dio dio = Dio();
-    dio.options.baseUrl = 'https://www.wanandroid.com/'; // 设置baseUrl
-
-    dio.get('banner/json').then((response) {
-      print(response.data);
-    }).catchError((error) {
-      print("Error: $error");
+  void refreshOrLoad(bool loadMore){
+    viewModel.initListData(loadMore, callback: (loadMore){
+      if(loadMore){
+        refreshController.loadComplete();
+      } else {
+        refreshController.refreshCompleted();
+      }
     });
+
   }
+
+  // void getList(){
+  //   Dio dio = Dio();
+  //   dio.options.baseUrl = 'https://www.wanandroid.com/'; // 设置baseUrl
+  //
+  //   dio.get('banner/json').then((response) {
+  //     print(response.data);
+  //   }).catchError((error) {
+  //     print("Error: $error");
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +62,18 @@ class _HomePageState extends State<HomeListPage> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _banner(),
-                _homeListView()
-                ,
-              ],
+          child: SmartRefreshWidget(
+            controller: refreshController,
+            onLoading: (){
+              refreshOrLoad(true);
+            },
+            onRefresh: (){
+              refreshOrLoad(false);
+              //then：上个执行完后才会执行下一个
+
+            },
+            child: SingleChildScrollView(
+              child: Column(children: [_banner(), _homeListView()]),
             ),
           ),
         ),
@@ -75,7 +95,10 @@ class _HomePageState extends State<HomeListPage> {
               return Container(
                 height: 150.h,
                 color: Colors.lightBlue,
-                child: Image.network(vm.bannerList?[index].imagePath ?? "", fit: BoxFit.fill,),
+                child: Image.network(
+                  vm.bannerList?[index].imagePath ?? "",
+                  fit: BoxFit.fill,
+                ),
               );
             },
             itemCount: vm.bannerList?.length ?? 0,
@@ -85,23 +108,25 @@ class _HomePageState extends State<HomeListPage> {
     );
   }
 
-  Widget _homeListView(){
-    return Consumer<HomeViewModel>(builder: (context, vm, child){
-      return ListView.builder(
-        shrinkWrap: true, //让布局知道高度
-        physics: NeverScrollableScrollPhysics(), //禁止listView滑动
-        itemBuilder: (context, index) {
-          return _listItem(vm.listData?[index]);
-        },
-        itemCount: vm.listData?.length ?? 0,
-      );
-    });
+  Widget _homeListView() {
+    return Consumer<HomeViewModel>(
+      builder: (context, vm, child) {
+        return ListView.builder(
+          shrinkWrap: true, //让布局知道高度
+          physics: NeverScrollableScrollPhysics(), //禁止listView滑动
+          itemBuilder: (context, index) {
+            return _listItem(vm.listData?[index]);
+          },
+          itemCount: vm.listData?.length ?? 0,
+        );
+      },
+    );
   }
 
   Widget _listItem(HomeListItemData? item) {
     var name;
-    if(item?.author?.isNotEmpty == true){
-      name =  item?.author ?? "";
+    if (item?.author?.isNotEmpty == true) {
+      name = item?.author ?? "";
     } else {
       name = item?.shareUser ?? "";
     }
@@ -144,15 +169,20 @@ class _HomePageState extends State<HomeListPage> {
                 ),
 
                 Expanded(child: SizedBox()),
-                Text(item?.niceShareDate ?? "", style: TextStyle(color: Colors.blue)),
-                SizedBox(width: 5.w),
                 Text(
-                  "置顶",
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  item?.niceShareDate ?? "",
+                  style: TextStyle(color: Colors.blue),
                 ),
+                SizedBox(width: 5.w),
+                item?.type?.toInt() == 1
+                    ? Text(
+                      "置顶",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                    : SizedBox(),
               ],
             ),
             Text(item?.title ?? ""),

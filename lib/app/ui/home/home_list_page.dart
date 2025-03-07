@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
@@ -11,6 +12,7 @@ import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/home_vm.dart';
 import 'package:xm_wanandroid_flutter/domin/home_list_data.dart';
 
+import '../../../widgets/custom_dialog.dart';
 import '../../../widgets/smart_refresh/smart_refresh_widget.dart';
 
 class HomeListPage extends StatefulWidget {
@@ -68,6 +70,7 @@ class _HomePageState extends State<HomeListPage> {
               refreshOrLoad(true);
             },
             onRefresh: (){
+              //context.read<HomeViewModel>().initListData(loadMore)
               refreshOrLoad(false);
               //then：上个执行完后才会执行下一个
 
@@ -132,6 +135,8 @@ class _HomePageState extends State<HomeListPage> {
     }
     return GestureDetector(
       onTap: () {
+        //showCustomDialog();
+        //showLoginRequiredDialog(context);
         RouteUtils.pushForNamed(
           context,
           RoutePath.webViewPage,
@@ -202,4 +207,42 @@ class _HomePageState extends State<HomeListPage> {
       ),
     );
   }
+
+  void showCustomDialog(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          title: "温馨提示",
+          content: "确定要执行此操作吗？",
+          confirmText: "确认",
+          cancelText: "取消",
+          onConfirm: () {
+            print("点击了确认");
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    ).then((value) => print('弹窗返回值: $value'));
+  }
+
+  void showLoginRequiredDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('需要登录'),
+        content: Text('请先登录才能进行此操作'),
+        actions: [
+          TextButton(
+            onPressed: () => {
+              showToast("点击我")
+            },
+            child: Text('去喜欢'),
+          )
+        ],
+      ),
+    );
+  }
 }
+
+

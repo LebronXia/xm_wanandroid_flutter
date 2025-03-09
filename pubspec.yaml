@@ -59,6 +59,7 @@ dependencies:
   injectable: ^2.1.0
 
   #状态管理 https://blog.csdn.net/qq_17766199/article/details/128032642
+  #https://riverpod.dev/docs/introduction/getting_started
   flutter_riverpod: ^2.0.0  # 核心库
   # 如果使用代码生成（如 AsyncNotifier）
   riverpod_annotation: ^2.0.0

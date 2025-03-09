@@ -16,7 +16,7 @@ import 'package:xm_wanandroid_flutter/domin/home_list_data.dart';
 import '../../../domin/new_home_banner_data.dart';
 import '../../../widgets/custom_dialog.dart';
 import '../../../widgets/smart_refresh/smart_refresh_widget.dart';
-import '../../viewmodel/home_providers.dart';
+import '../../viewmodel/home_provider.dart';
 
 class HomeListPage extends StatefulWidget {
   @override
@@ -91,7 +91,7 @@ class _HomePageState extends State<HomeListPage> {
       builder: (context, ref, _) {
         /// 这里可以传参“London”  AsyncValue<List<NewHomeBannerData>>
         final bannerDataAsync = ref.watch(
-            bannerProvider);
+            bannerServiceProvider);
         return bannerDataAsync.when(
             data: (data) {
               return SizedBox(

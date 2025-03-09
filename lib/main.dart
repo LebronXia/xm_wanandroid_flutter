@@ -6,13 +6,15 @@ import 'package:xm_wanandroid_flutter/app/route/routes.dart';
 import 'package:xm_wanandroid_flutter/data/wan_android_api.dart';
 import 'package:xm_wanandroid_flutter/http/dio_instance.dart';
 
+import 'app/di/locator.dart';
 import 'app/ui/home/home_list_page.dart';
 import 'app/ui/main_page.dart';
 
 void main() {
   DioInstance.instance().initDio(baseUrl: "https://www.wanandroid.com/");
-  
-  final client = WanAndroidApi(DioInstance.instance().getDio());
+
+  setupLocator();
+  //final client = WanAndroidApi(DioInstance.instance().getDio());
   runApp(const MyApp());
 }
 

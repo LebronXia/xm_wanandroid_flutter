@@ -54,6 +54,9 @@ dependencies:
   freezed: ^2.4.5
   #https://pub.dev/packages/fpdart/install either
   fpdart: ^1.1.1
+  #依赖注入
+  get_it: ^7.6.0
+  injectable: ^2.1.0
 
 
 dev_dependencies:
@@ -69,6 +72,7 @@ dev_dependencies:
   retrofit_generator: ^9.1.5
   build_runner: ^2.3.3
   json_serializable: ^6.8.0
+  injectable_generator: ^2.1.0  # 代码生成器
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

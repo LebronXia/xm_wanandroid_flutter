@@ -46,7 +46,7 @@ dependencies:
   oktoast: ^3.3.1
   # 下拉刷新上拉加载
   pull_to_refresh: ^2.0.0
-  #retrofit
+  #retrofit  https://juejin.cn/post/7244358444349128763
   retrofit: ^4.4.1
   logger: ^2.4.0  # for logging purpose
   json_annotation: ^4.9.0
@@ -54,9 +54,14 @@ dependencies:
   freezed: ^2.4.5
   #https://pub.dev/packages/fpdart/install either
   fpdart: ^1.1.1
-  #依赖注入
+  #依赖注入 https://juejin.cn/post/7060525200139354148
   get_it: ^7.6.0
   injectable: ^2.1.0
+
+  #状态管理 https://blog.csdn.net/qq_17766199/article/details/128032642
+  flutter_riverpod: ^2.0.0  # 核心库
+  # 如果使用代码生成（如 AsyncNotifier）
+  riverpod_annotation: ^2.0.0
 
 
 dev_dependencies:
@@ -73,6 +78,8 @@ dev_dependencies:
   build_runner: ^2.3.3
   json_serializable: ^6.8.0
   injectable_generator: ^2.1.0  # 代码生成器
+  # 如果使用代码生成
+  riverpod_generator: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

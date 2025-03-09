@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as provider;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
 import 'package:xm_wanandroid_flutter/app/route/routes.dart';
@@ -12,8 +13,10 @@ import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/home_vm.dart';
 import 'package:xm_wanandroid_flutter/domin/home_list_data.dart';
 
+import '../../../domin/new_home_banner_data.dart';
 import '../../../widgets/custom_dialog.dart';
 import '../../../widgets/smart_refresh/smart_refresh_widget.dart';
+import '../../viewmodel/home_providers.dart';
 
 class HomeListPage extends StatefulWidget {
   @override
@@ -34,15 +37,14 @@ class _HomePageState extends State<HomeListPage> {
     //getList();
   }
 
-  void refreshOrLoad(bool loadMore){
-    viewModel.initListData(loadMore, callback: (loadMore){
-      if(loadMore){
+  void refreshOrLoad(bool loadMore) {
+    viewModel.initListData(loadMore, callback: (loadMore) {
+      if (loadMore) {
         refreshController.loadComplete();
       } else {
         refreshController.refreshCompleted();
       }
     });
-
   }
 
   // void getList(){
@@ -58,7 +60,7 @@ class _HomePageState extends State<HomeListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<HomeViewModel>(
+    return provider.ChangeNotifierProvider<HomeViewModel>(
       create: (context) {
         return viewModel;
       },
@@ -66,10 +68,10 @@ class _HomePageState extends State<HomeListPage> {
         body: SafeArea(
           child: SmartRefreshWidget(
             controller: refreshController,
-            onLoading: (){
+            onLoading: () {
               refreshOrLoad(true);
             },
-            onRefresh: (){
+            onRefresh: () {
               //context.read<HomeViewModel>().initListData(loadMore)
               refreshOrLoad(false);
               //then：上个执行完后才会执行下一个
@@ -85,34 +87,70 @@ class _HomePageState extends State<HomeListPage> {
   }
 
   Widget _banner() {
-    return Consumer<HomeViewModel>(
-      builder: (context, vm, child) {
-        return SizedBox(
-          height: 150.h,
-          width: double.infinity,
-          child: Swiper(
-            indicatorLayout: PageIndicatorLayout.NONE,
-            pagination: const SwiperPagination(),
-            autoplay: true,
-            itemBuilder: (context, index) {
-              return Container(
+    return Consumer(
+      builder: (context, ref, _) {
+        /// 这里可以传参“London”  AsyncValue<List<NewHomeBannerData>>
+        final bannerDataAsync = ref.watch(
+            bannerProvider);
+        return bannerDataAsync.when(
+            data: (data) {
+              return SizedBox(
                 height: 150.h,
-                color: Colors.lightBlue,
-                child: Image.network(
-                  vm.bannerList?[index].imagePath ?? "",
-                  fit: BoxFit.fill,
+                width: double.infinity,
+                child: Swiper(
+                  indicatorLayout: PageIndicatorLayout.NONE,
+                  pagination: const SwiperPagination(),
+                  autoplay: true,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      height: 150.h,
+                      color: Colors.lightBlue,
+                      child: Image.network(
+                        data[index].imagePath ?? "",
+                        fit: BoxFit.fill,
+                      ),
+                    );
+                  },
+                  itemCount: data.length ?? 0,
                 ),
               );
             },
-            itemCount: vm.bannerList?.length ?? 0,
-          ),
-        );
+            error:  (error, stackTrace) => Center(
+              child: Text("加载失败: ${error.toString()}"),
+            ),
+            loading: () => Center(
+              child: CircularProgressIndicator(),
+        ),);
       },
     );
+    // return Consumer<HomeViewModel>(
+    //   builder: (context, vm, child) {
+    //     return SizedBox(
+    //       height: 150.h,
+    //       width: double.infinity,
+    //       child: Swiper(
+    //         indicatorLayout: PageIndicatorLayout.NONE,
+    //         pagination: const SwiperPagination(),
+    //         autoplay: true,
+    //         itemBuilder: (context, index) {
+    //           return Container(
+    //             height: 150.h,
+    //             color: Colors.lightBlue,
+    //             child: Image.network(
+    //               vm.bannerList?[index].imagePath ?? "",
+    //               fit: BoxFit.fill,
+    //             ),
+    //           );
+    //         },
+    //         itemCount: vm.bannerList?.length ?? 0,
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   Widget _homeListView() {
-    return Consumer<HomeViewModel>(
+    return provider.Consumer<HomeViewModel>(
       builder: (context, vm, child) {
         return ListView.builder(
           shrinkWrap: true, //让布局知道高度
@@ -181,12 +219,12 @@ class _HomePageState extends State<HomeListPage> {
                 SizedBox(width: 5.w),
                 item?.type?.toInt() == 1
                     ? Text(
-                      "置顶",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
+                  "置顶",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
                     : SizedBox(),
               ],
             ),
@@ -208,7 +246,7 @@ class _HomePageState extends State<HomeListPage> {
     );
   }
 
-  void showCustomDialog(){
+  void showCustomDialog() {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -229,18 +267,20 @@ class _HomePageState extends State<HomeListPage> {
   void showLoginRequiredDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('需要登录'),
-        content: Text('请先登录才能进行此操作'),
-        actions: [
-          TextButton(
-            onPressed: () => {
-              showToast("点击我")
-            },
-            child: Text('去喜欢'),
-          )
-        ],
-      ),
+      builder: (context) =>
+          AlertDialog(
+            title: Text('需要登录'),
+            content: Text('请先登录才能进行此操作'),
+            actions: [
+              TextButton(
+                onPressed: () =>
+                {
+                  showToast("点击我")
+                },
+                child: Text('去喜欢'),
+              )
+            ],
+          ),
     );
   }
 }

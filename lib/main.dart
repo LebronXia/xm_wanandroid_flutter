@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
@@ -17,7 +18,7 @@ Future<void> main() async {
   //setupLocator();
   //final client = WanAndroidApi(DioInstance.instance().getDio());
   configureDependencies();
-  runApp(const MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
+
   final String title;
 
   @override
@@ -44,29 +46,22 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
-
   @override
   Widget build(BuildContext context) {
-    return OKToast
-      (child: ScreenUtilInit(
+    return OKToast(
+      child: ScreenUtilInit(
         designSize: const Size(360, 960),
-        builder: (context, child){
+        builder: (context, child) {
           return MaterialApp(
             title: "Flutter Demo",
-            theme: ThemeData(
-              useMaterial3: true,
-            ),
+            theme: ThemeData(useMaterial3: true),
             navigatorKey: RouteUtils.navigatorKey,
             onGenerateRoute: Routes.generateRoute,
             initialRoute: RoutePath.home,
-           // home: MainPage()
+            // home: MainPage()
           );
         },
       ),
     );
-
-
   }
 }

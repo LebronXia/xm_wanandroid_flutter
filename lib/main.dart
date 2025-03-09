@@ -9,12 +9,14 @@ import 'package:xm_wanandroid_flutter/http/dio_instance.dart';
 import 'app/di/locator.dart';
 import 'app/ui/home/home_list_page.dart';
 import 'app/ui/main_page.dart';
+import 'injectable.dart';
 
-void main() {
+Future<void> main() async {
   DioInstance.instance().initDio(baseUrl: "https://www.wanandroid.com/");
 
-  setupLocator();
+  //setupLocator();
   //final client = WanAndroidApi(DioInstance.instance().getDio());
+  configureDependencies();
   runApp(const MyApp());
 }
 

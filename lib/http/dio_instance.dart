@@ -17,6 +17,10 @@ class DioInstance {
   final _dio = Dio();
   final _defaultTime = const Duration(seconds: 30);
 
+  Dio getDio(){
+    return _dio;
+  }
+
   void initDio({
     required String baseUrl,
     String? httpMethod = HttpMethod.GET,

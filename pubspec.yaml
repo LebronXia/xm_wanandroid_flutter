@@ -37,7 +37,7 @@ dependencies:
   shared_preferences: ^2.0.15
   # 状态管理
   provider: ^6.1.2
-  dio: ^5.8.0
+  dio: ^5.7.0
   # 屏幕适配相关
   flutter_screenutil: ^5.9.0-beta
   # banner轮播图组件
@@ -46,7 +46,14 @@ dependencies:
   oktoast: ^3.3.1
   # 下拉刷新上拉加载
   pull_to_refresh: ^2.0.0
-
+  #retrofit
+  retrofit: ^4.4.1
+  logger: ^2.4.0  # for logging purpose
+  json_annotation: ^4.9.0
+  #代码生成
+  freezed: ^2.4.5
+  #https://pub.dev/packages/fpdart/install either
+  fpdart: ^1.1.1
 
 
 dev_dependencies:
@@ -59,6 +66,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  retrofit_generator: ^9.1.5
+  build_runner: ^2.3.3
+  json_serializable: ^6.8.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

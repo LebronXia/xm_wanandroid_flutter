@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:xm_wanandroid_flutter/data/repository/home_repository.dart';
 
+import '../../data/api_provider.dart';
 import '../../domin/new_home_banner_data.dart';
 
 part 'home_provider.g.dart';
@@ -10,8 +11,9 @@ part 'home_provider.g.dart';
 @riverpod
 Future<List<NewHomeBannerData>> bannerService(Ref ref) async {
   // 从另一个 Provider 获取参数
-  final repository = ref.watch(homeRepositoryProvider);
-  return repository.getBanner();
+  // final repository = ref.watch(homeRepositoryProvider);
+  // return repository.getBanner();
+  return await ref.watch(wanAndroidApiProvider).getBanner();
 }
 
 // final bannerProvider = FutureProvider<List<NewHomeBannerData>>((ref){

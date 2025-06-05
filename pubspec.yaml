@@ -47,6 +47,7 @@ dependencies:
   # 下拉刷新上拉加载
   pull_to_refresh: ^2.0.0
   #retrofit  https://juejin.cn/post/7244358444349128763
+  #https://juejin.cn/post/7351298379550375962
   retrofit: ^4.4.1
   logger: ^2.4.0  # for logging purpose
   json_annotation: ^4.9.0
@@ -56,10 +57,14 @@ dependencies:
   fpdart: ^1.1.1
   #依赖注入 https://juejin.cn/post/7060525200139354148
   get_it: ^7.6.0
+  #injectable 是一个用于 Flutter 的依赖注入库，它基于 get_it，可以帮助你更轻松地管理和注入依赖。
+  #https://bbs.itying.com/topic/67c604c936bb8501316fe149
+  #https://pub.dev/packages/injectable/example
   injectable: ^2.1.0
 
   #状态管理 https://blog.csdn.net/qq_17766199/article/details/128032642
   #https://riverpod.dev/docs/introduction/getting_started
+  #https://blog.gstory.cn/archives/ae666b4e-3620-4ce3-8ad8-e433c9439bf9
   flutter_riverpod: ^2.0.0  # 核心库
   # 如果使用代码生成（如 AsyncNotifier）
   riverpod_annotation: ^2.0.0

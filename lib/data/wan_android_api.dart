@@ -8,10 +8,8 @@ import '../domin/new_home_banner_data.dart';
 import '../injectable.dart';
 part 'wan_android_api.g.dart';
 
-@injectable
 @RestApi()
 abstract class WanAndroidApi{
-  @factoryMethod
   factory WanAndroidApi(Dio dio) = _WanAndroidApi;
 
   @GET("banner/json")

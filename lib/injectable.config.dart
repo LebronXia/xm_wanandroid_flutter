@@ -13,6 +13,7 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import 'data/repository/auth_repository.dart' as _i691;
 import 'data/wan_android_api.dart' as _i350;
 import 'http/dio_config.dart' as _i144;
 
@@ -25,7 +26,12 @@ _i174.GetIt init(
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final dioModule = _$DioModule();
   gh.lazySingleton<_i361.Dio>(() => dioModule.dio);
-  gh.factory<_i350.WanAndroidApi>(() => _i350.WanAndroidApi(gh<_i361.Dio>()));
+  gh.singleton<_i350.WanAndroidApi>(
+    () => dioModule.wanAndroidApi(gh<_i361.Dio>()),
+  );
+  gh.factory<_i691.AuthRepository>(
+    () => _i691.AuthRepository(gh<_i350.WanAndroidApi>()),
+  );
   return getIt;
 }
 

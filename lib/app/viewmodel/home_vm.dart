@@ -1,7 +1,6 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:xm_wanandroid_flutter/app/di/locator.dart';
 import 'package:xm_wanandroid_flutter/domin/home_banner_data.dart';
 import 'package:xm_wanandroid_flutter/domin/home_list_data.dart';
 import 'package:xm_wanandroid_flutter/domin/new_home_banner_data.dart';
@@ -9,6 +8,7 @@ import 'package:xm_wanandroid_flutter/http/dio_instance.dart';
 
 import '../../data/api.dart';
 import '../../data/wan_android_api.dart';
+import '../../injectable.dart';
 
 class HomeViewModel with ChangeNotifier {
 

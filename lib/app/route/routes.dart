@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xm_wanandroid_flutter/app/ui/home/home_list_page.dart';
+import 'package:xm_wanandroid_flutter/app/ui/login/login_page.dart';
 import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
 
 import '../ui/main_page.dart';
@@ -12,6 +13,8 @@ class Routes {
         return pageRoute(MainPage(), settings: settings);
       case RoutePath.webViewPage:
         return pageRoute(WebViewPage(title: "首页传过来的"), settings: settings);
+      case RoutePath.loginPage:
+        return pageRoute(LoginPage(), settings: settings);
     }
 
     return pageRoute(
@@ -44,4 +47,5 @@ class Routes {
 class RoutePath {
   static const String home = "/";
   static const String webViewPage = "/web_view_page";
+  static const String loginPage = "/login_page";
 }

@@ -1,22 +1,27 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../data/wan_android_api.dart';
+import '../wan_android_api.dart';
 import '../../domin/new_home_banner_data.dart';
 import '../../injectable.dart';
+part 'home_repository.g.dart';
 
-final homeRepositoryProvider = Provider<HomeRepository>((ref) {
+
+// @Riverpod(keepAlive: true)
+// final homeRepositoryProvider = Provider<HomeRepository>((ref) {
+//   return HomeRepository();
+// });
+
+@Riverpod(keepAlive: true)
+HomeRepository homeRepository(Ref ref) {
   return HomeRepository();
-});
+}
 
 class HomeRepository {
 
   final WanAndroidApi _api = getIt<WanAndroidApi>();
 
-  @riverpod
   Future< List<NewHomeBannerData>> getBanner() async {
-    return await getIt<WanAndroidApi>().getBanner();
+    return await _api.getBanner();
   }
-
-
 }

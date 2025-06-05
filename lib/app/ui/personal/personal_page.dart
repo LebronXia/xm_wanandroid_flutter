@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:xm_wanandroid_flutter/app/ui/login/login_page.dart';
+
+import '../../route/RouteUtils.dart';
 
 class PersonalPage extends StatefulWidget {
   @override
@@ -14,16 +17,16 @@ class _PersonalPageState extends State<PersonalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: _loginScreen()
-        // child: Column(
-        //   children: [
-        //     _headView(),
-        //     _settingItem("我的收藏"),
-        //     _settingItem("检查更新"),
-        //     _settingItem("关于我们")
-        //     ,
-        //   ],
-        // ),
+        //child: _loginScreen()
+        child: Column(
+          children: [
+            _headView(),
+            _settingItem("我的收藏"),
+            _settingItem("检查更新"),
+            _settingItem("关于我们")
+            ,
+          ],
+        ),
       ),
     );
   }
@@ -62,15 +65,19 @@ class _PersonalPageState extends State<PersonalPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(45.r)),
-            child: Image.asset(
-              "assets/images/logo.png",
-              width: 70.w,
-              height: 70,
-              fit: BoxFit.fill,
+          GestureDetector(
+            onTap: () =>  RouteUtils.push(context, LoginPage()),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(45.r)),
+              child: Image.asset(
+                "assets/images/logo.png",
+                width: 70.w,
+                height: 70,
+                fit: BoxFit.fill,
+              ),
             ),
           ),
+
 
           SizedBox(height: 5.h),
           Text("未登录", style: TextStyle(fontSize: 13.sp, color: Colors.black)),

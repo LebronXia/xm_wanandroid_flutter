@@ -1,7 +1,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:xm_wanandroid_flutter/app/viewmodel/home_repository.dart';
+import 'package:xm_wanandroid_flutter/data/repository/home_repository.dart';
 
 import '../../domin/new_home_banner_data.dart';
 

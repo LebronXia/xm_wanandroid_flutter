@@ -1,30 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_provider.dart';
+part of 'mine_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bannerServiceHash() => r'7f2a5d5d40b9a8fd3e67aabd490896bc921bfa44';
+String _$authStateHash() => r'96c2e9afad20c50df9cf11864ae0bfa9df17d32a';
 
-/// See also [bannerService].
-@ProviderFor(bannerService)
-final bannerServiceProvider =
-    AutoDisposeFutureProvider<List<NewHomeBannerData>>.internal(
-      bannerService,
-      name: r'bannerServiceProvider',
+/// See also [AuthState].
+@ProviderFor(AuthState)
+final authStateProvider =
+    AutoDisposeNotifierProvider<AuthState, AuthStateData>.internal(
+      AuthState.new,
+      name: r'authStateProvider',
       debugGetCreateSourceHash:
           const bool.fromEnvironment('dart.vm.product')
               ? null
-              : _$bannerServiceHash,
+              : _$authStateHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef BannerServiceRef =
-    AutoDisposeFutureProviderRef<List<NewHomeBannerData>>;
+typedef _$AuthState = AutoDisposeNotifier<AuthStateData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -1,30 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'home_provider.dart';
+part of 'knowledge_view_model.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bannerServiceHash() => r'7f2a5d5d40b9a8fd3e67aabd490896bc921bfa44';
+String _$getKnowledgeListHash() => r'd70afb3da41a6f1b0cdea73e03930f601013b484';
 
-/// See also [bannerService].
-@ProviderFor(bannerService)
-final bannerServiceProvider =
-    AutoDisposeFutureProvider<List<NewHomeBannerData>>.internal(
-      bannerService,
-      name: r'bannerServiceProvider',
+/// See also [getKnowledgeList].
+@ProviderFor(getKnowledgeList)
+final getKnowledgeListProvider =
+    AutoDisposeFutureProvider<List<KnowledgeModel>>.internal(
+      getKnowledgeList,
+      name: r'getKnowledgeListProvider',
       debugGetCreateSourceHash:
           const bool.fromEnvironment('dart.vm.product')
               ? null
-              : _$bannerServiceHash,
+              : _$getKnowledgeListHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef BannerServiceRef =
-    AutoDisposeFutureProviderRef<List<NewHomeBannerData>>;
+typedef GetKnowledgeListRef =
+    AutoDisposeFutureProviderRef<List<KnowledgeModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

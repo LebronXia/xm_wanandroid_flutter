@@ -5,10 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
+import 'package:xm_wanandroid_flutter/app/ui/login/register_page.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/auth_view_model.dart';
 import 'package:xm_wanandroid_flutter/widgets/common_style.dart';
 
+import '../main_page.dart';
+
 class LoginPage extends ConsumerStatefulWidget {
+  const LoginPage({super.key});
+
   @override
   ConsumerState<LoginPage> createState() {
     return _LoginPageState();
@@ -25,6 +30,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
     final loginState = ref.watch(loginNotifierProvider);
+
+    ref.listen(loginNotifierProvider, (_,state){
+      if(state is AsyncData){
+        RouteUtils.pushAndRemoveUntil(context, MainPage());
+      } else if(state is AsyncError){
+
+      }
+    });
     return Scaffold(
       backgroundColor: Colors.teal,
       body: SafeArea(
@@ -62,10 +75,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     loginState is AsyncLoading ? null : ref.read(loginNotifierProvider.notifier).login();
                   }),
                   SizedBox(height: 15.h),
-                  // GestureDetector(onTap: {
-                  //   //RouteUtils.push(context, const)
-                  // }),
-
+                  GestureDetector(onTap: (){
+                    RouteUtils.push(context, const RegisterPage());
+                  }, child: Text("注册", style: whiteTextStyle15))
                 ],
               ),
             ),

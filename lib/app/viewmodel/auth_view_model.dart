@@ -143,9 +143,12 @@ class RegisterNotifier extends _$RegisterNotifier {
         throw Exception("注册异常");
       }
       state = const AsyncData(null);
+      showToast("注册成功");
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
-      showToast(e.toString().replaceAll("Exception: ", ""));
+      final errorMessage = e.toString().replaceFirst("Exception: ", "");
+      showToast("注册失败: $errorMessage");
+      //showToast(e.toString().replaceAll("Exception: ", ""));
     }
   }
 }

@@ -8,6 +8,8 @@ import 'hot_key/hot_key_page.dart';
 import 'knowledge/knowledge_page.dart';
 
 class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _MainPageState();
@@ -16,6 +18,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
+  //KnowledgePage
   final List<Widget> tabItems = [HomeListPage(), HotKeyPage(), KnowledgePage(), PersonalPage()];
   final List<String> tabLabels = ["首页", "热点", "体系", "我的"];
   final List<String> tabIcons = [

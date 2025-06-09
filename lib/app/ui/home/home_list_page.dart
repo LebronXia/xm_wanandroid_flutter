@@ -14,6 +14,7 @@ import 'package:xm_wanandroid_flutter/app/route/routes.dart';
 import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/favorite_use_case.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/home_vm.dart';
+import 'package:xm_wanandroid_flutter/domin/favorite_state.dart';
 import 'package:xm_wanandroid_flutter/domin/home_list_data.dart';
 import 'package:xm_wanandroid_flutter/widgets/common_style.dart';
 
@@ -262,11 +263,14 @@ class _HomePageState extends State<HomeListPage> {
   Widget collectButton(HomeListItemData item){
     return Consumer(builder: (_, ref, __) {
 
-      final favoriteState = ref.watch(favoriteNotifierProvider(item.id.toString() , item.collect ?? false));
-      final favoriteStateNotifier = ref.read(favoriteNotifierProvider(item.id.toString(), item.collect ?? false).notifier);
+      var provider = favoriteNotifierProvider(item.id.toString() , item.collect ?? false);
+      final favoriteState = ref.watch(provider);
+      final favoriteStateNotifier = ref.read(provider.notifier);
 
-      ref.listen(favoriteNotifierProvider("",  false).select((state) => state),  (_,state){
-        log("收藏文章: ${state.isFavorite ? '取消收藏' : '收藏'}");
+      ref.listen<FavoriteState>(provider,  (previous,next){
+        if (previous != null && previous.isFavorite != next.isFavorite) {
+          log("Item ${item.id}: ${next.isFavorite ? '收藏成功' : '取消收藏成功'}");
+        }
       });
 
       return GestureDetector(onTap: (){

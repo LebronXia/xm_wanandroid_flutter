@@ -43,4 +43,13 @@ abstract class WanAndroidApi {
     @Path("pageCount") int pageCount, // 定义路径参数
     @Query("cid") int? categoryId, // 可选查询参数
   );
+
+  //收藏站内文章
+  @POST("lg/collect/{id}/json")
+  Future<bool> collect(@Path("id") String id);
+
+  //取消收藏
+  @POST("lg/uncollect_originId/{id}/json")
+  Future<bool> unCollect(@Path("id") String id);
+
 }

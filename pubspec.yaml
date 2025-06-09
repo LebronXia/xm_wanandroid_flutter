@@ -51,8 +51,6 @@ dependencies:
   retrofit: ^4.4.1
   logger: ^2.4.0  # for logging purpose
   json_annotation: ^4.9.0
-  #代码生成
-  freezed: ^2.4.5
   #https://pub.dev/packages/fpdart/install either
   fpdart: ^1.1.1
   #依赖注入 https://juejin.cn/post/7060525200139354148
@@ -71,9 +69,15 @@ dependencies:
   #路由跳转
   auto_route: ^10.1.0+1
   #https://pub.dev/packages/hive
+  #替代sp数据本地存储
   hive: ^2.2.3
   #加载网络图片
   cached_network_image: ^3.4.0
+  #https://pub.dev/packages/freezed/example
+  #https://blog.einverne.info/post/2025/03/flutter-freezed-code-generator.html
+  #https://github.com/rrousselGit/freezed/blob/master/resources/translations/zh_CN/README.md
+  #基于 Dart 的代码生成功能，通过自动生成 data classes, tagged unions, nested classes 和 clone 代码模板
+  freezed_annotation: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -91,6 +95,11 @@ dev_dependencies:
   injectable_generator: ^2.1.0  # 代码生成器
   # 如果使用代码生成
   riverpod_generator: ^2.0.0
+  freezed: ^3.0.4
+
+dependency_overrides: # 临时解决冲突
+  shared_preferences_android: ^2.0.24
+
 
 
 # For information on the generic Dart part of this file, see the

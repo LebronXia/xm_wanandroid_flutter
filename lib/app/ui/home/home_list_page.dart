@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +12,10 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
 import 'package:xm_wanandroid_flutter/app/route/routes.dart';
 import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
+import 'package:xm_wanandroid_flutter/app/viewmodel/favorite_use_case.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/home_vm.dart';
 import 'package:xm_wanandroid_flutter/domin/home_list_data.dart';
+import 'package:xm_wanandroid_flutter/widgets/common_style.dart';
 
 import '../../../domin/new_home_banner_data.dart';
 import '../../../widgets/custom_dialog.dart';
@@ -92,6 +96,8 @@ class _HomePageState extends State<HomeListPage> {
         /// 这里可以传参“London”  AsyncValue<List<NewHomeBannerData>>
         final bannerDataAsync = ref.watch(
             bannerServiceProvider);
+        // final bannerDataAsync = ref.watch(
+        //     bannerServiceProvider.future);
         return bannerDataAsync.when(
             data: (data) {
               return SizedBox(
@@ -171,80 +177,113 @@ class _HomePageState extends State<HomeListPage> {
     } else {
       name = item?.shareUser ?? "";
     }
-    return GestureDetector(
-      onTap: () {
-        //showCustomDialog();
-        //showLoginRequiredDialog(context);
-        RouteUtils.pushForNamed(
-          context,
-          RoutePath.webViewPage,
-          arguments: {"name": "使用路由器"},
-        );
-        // Navigator.pushNamed(context, RoutePath.webViewPage);
-        // Navigator.push(context, MaterialPageRoute(builder: (context){
-        //     return WebViewPage(title: "首页传值",);
-        // }));
-      },
-      child: Container(
-        margin: EdgeInsets.fromLTRB(10.w, 5.h, 10.w, 5.h),
-        padding: EdgeInsets.fromLTRB(10.w, 15.h, 10.w, 15.h),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black12, width: 0.5.r),
-          borderRadius: BorderRadius.all(Radius.circular(6.r)),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15.r),
-                  child: Image.network(
-                    "https://img2.baidu.com/it/u=2560034076,3720003781&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1067",
-                    width: 30.r,
-                    height: 30.r,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 3),
-                  child: Text(name, style: TextStyle(color: Colors.black)),
-                ),
+    return Consumer(builder: (_, WidgetRef ref, __) {
+      final provider = ref.watch(bannerServiceProvider);
 
-                Expanded(child: SizedBox()),
-                Text(
-                  item?.niceShareDate ?? "",
-                  style: TextStyle(color: Colors.blue),
-                ),
-                SizedBox(width: 5.w),
-                item?.type?.toInt() == 1
-                    ? Text(
-                  "置顶",
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold,
+      return GestureDetector(
+        onTap: () {
+          //showCustomDialog();
+          //showLoginRequiredDialog(context);
+          RouteUtils.pushForNamed(
+            context,
+            RoutePath.webViewPage,
+            arguments: {"name": "使用路由器"},
+          );
+          // Navigator.pushNamed(context, RoutePath.webViewPage);
+          // Navigator.push(context, MaterialPageRoute(builder: (context){
+          //     return WebViewPage(title: "首页传值",);
+          // }));
+        },
+        child: Container(
+          margin: EdgeInsets.fromLTRB(10.w, 5.h, 10.w, 5.h),
+          padding: EdgeInsets.fromLTRB(10.w, 15.h, 10.w, 15.h),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black12, width: 0.5.r),
+            borderRadius: BorderRadius.all(Radius.circular(6.r)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15.r),
+                    child: Image.network(
+                      "https://img2.baidu.com/it/u=2560034076,3720003781&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=1067",
+                      width: 30.r,
+                      height: 30.r,
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                )
-                    : SizedBox(),
-              ],
-            ),
-            Text(item?.title ?? ""),
-            Row(
-              children: [
-                Text(item?.chapterName ?? ""),
-                Expanded(child: SizedBox()),
-                Image.asset(
-                  "assets/images/img_collect_grey.png",
-                  width: 30.r,
-                  height: 30.r,
-                ),
-              ],
-            ),
-          ],
+                  Padding(
+                    padding: EdgeInsets.only(left: 3),
+                    child: Text(name, style: TextStyle(color: Colors.black)),
+                  ),
+
+                  Expanded(child: SizedBox()),
+                  Text(
+                    item?.niceShareDate ?? "",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                  SizedBox(width: 5.w),
+                  item?.type?.toInt() == 1
+                      ? Text(
+                    "置顶",
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                      : SizedBox(),
+                ],
+              ),
+              Text(item?.title ?? ""),
+              Row(
+                children: [
+                  Text(item?.chapterName ?? ""),
+                  Expanded(child: SizedBox()),
+                  collectButton(item!)
+                  // Image.asset(
+                  //   "assets/images/img_collect_grey.png",
+                  //   width: 30.r,
+                  //   height: 30.r,
+                  // ),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
+
   }
+
+  //收藏按钮
+  Widget collectButton(HomeListItemData item){
+    return Consumer(builder: (_, ref, __) {
+
+      final favoriteState = ref.watch(favoriteNotifierProvider(item.id.toString() , item.collect ?? false));
+      final favoriteStateNotifier = ref.read(favoriteNotifierProvider(item.id.toString(), item.collect ?? false).notifier);
+
+      ref.listen(favoriteNotifierProvider("",  false).select((state) => state),  (_,state){
+        log("收藏文章: ${state.isFavorite ? '取消收藏' : '收藏'}");
+      });
+
+      return GestureDetector(onTap: (){
+        log("点击收藏按钮: + ${favoriteState.isLoading} + ${item.collect ?? false}");
+        favoriteState.isLoading ? null : {
+          favoriteStateNotifier.toggleFavorite()
+        };
+      }, child: Image.asset(
+        favoriteState.isFavorite ? "assets/images/img_collect.png" :
+        "assets/images/img_collect_grey.png",
+        width: 30.r,
+        height: 30.r,
+      ));
+    });
+
+  }
+
 
   void showCustomDialog() {
     showDialog(

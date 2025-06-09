@@ -56,3 +56,13 @@ Widget outlineWhiteButton(String title, {GestureTapCallback? onTap}) {
     ),
   );
 }
+
+//收藏按钮
+Widget collectButton(bool isCollect, {GestureTapCallback? onTap}){
+  return GestureDetector(onTap: onTap, child: Image.asset(
+    isCollect == true ? "assets/images/img_collect.png" :
+    "assets/images/img_collect_grey.png",
+    width: 30.r,
+    height: 30.r,
+  ));
+}

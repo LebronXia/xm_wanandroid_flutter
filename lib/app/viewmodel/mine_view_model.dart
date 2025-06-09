@@ -1,5 +1,6 @@
 import 'package:oktoast/oktoast.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
 import 'package:xm_wanandroid_flutter/data/api_provider.dart';
 
 import '../../constants.dart';
@@ -38,6 +39,12 @@ class AuthState extends _$AuthState {
 
   Future<void> _loadUserState() async{
     String? name  = await  SpUtils.getString(Constants.SP_USER_NAME);
+    if(name != null && name.isNotEmpty){
+      state = AuthStateData.authenticated(name);
+    }
+  }
+
+  Future<void> loginState(String? name) async{
     if(name != null && name.isNotEmpty){
       state = AuthStateData.authenticated(name);
     }

@@ -24,31 +24,36 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
   Widget build(BuildContext context) {
 
     final authState = ref.watch(authStateProvider);
+    final authNotifier = ref.read(authStateProvider.notifier);
 
     return Scaffold(
       body: SafeArea(
         //child: _loginScreen()
         child: Column(
           children: [
-            _headView(onTap: (){
+            _headView(authState.isAuthenticated, authState.userName, onTap: (){
               if(authState.isAuthenticated == false){
                 log("点击头像或者用户名去登录");
                 RouteUtils.push(context, LoginPage());
               }
               log("点击头像登录:${authState.isAuthenticated}");
             }),
-            _settingItem("我的收藏"),
-            _settingItem("检查更新"),
-            _settingItem("关于我们")
-            ,
+            _settingItem("我的收藏", (){}),
+            _settingItem("检查更新", (){}),
+            _settingItem("关于我们", (){}),
+            authState.isAuthenticated == true ?  _settingItem("退出登录",(){
+              authNotifier.logout();
+            }) :  SizedBox()
           ],
         ),
       ),
     );
   }
 
-  Widget _settingItem(String? title){
-    return Container(
+  Widget _settingItem(String? title, GestureTapCallback? onTap){
+    return GestureDetector(
+        onTap: onTap,
+    child: Container(
       margin: EdgeInsets.only(left: 15.w, right: 15.w, top: 15.h),
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
@@ -69,10 +74,10 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
           ),
         ],
       ),
-    );
+    ));
   }
 
-  Widget _headView({GestureTapCallback? onTap}) {
+  Widget _headView(bool isLogin, String name, {GestureTapCallback? onTap}) {
     return Container(
       width: double.infinity,
       height: 200.h,
@@ -96,7 +101,8 @@ class _PersonalPageState extends ConsumerState<PersonalPage> {
 
 
           SizedBox(height: 5.h),
-          Text("未登录", style: TextStyle(fontSize: 13.sp, color: Colors.black)),
+          isLogin ? Text(name, style: TextStyle(fontSize: 13.sp, color: Colors.black))
+          : Text("未登录", style: TextStyle(fontSize: 13.sp, color: Colors.black)),
         ],
       ),
     );

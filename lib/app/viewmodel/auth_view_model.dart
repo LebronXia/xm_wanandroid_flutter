@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:xm_wanandroid_flutter/app/viewmodel/mine_view_model.dart';
 import 'package:xm_wanandroid_flutter/data/repository/auth_repository.dart';
 import 'package:xm_wanandroid_flutter/utils/sp_utils.dart';
 
@@ -92,6 +93,7 @@ class LoginNotifier extends _$LoginNotifier {
         Constants.SP_USER_NAME,
         userInfo?.username ?? "",
       );
+      ref.read(authStateProvider.notifier).loginState(userInfo?.username ?? "");
       state = const AsyncData(null);
     } catch (e) {
       state = AsyncError(e, StackTrace.current);

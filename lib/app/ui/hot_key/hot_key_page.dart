@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
-import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
+import 'package:xm_wanandroid_flutter/app/ui/route_param_page.dart';
+import 'package:xm_wanandroid_flutter/app/ui/web/webview_widget.dart';
 
 import '../../../domin/search_hot_key.dart';
 import '../../viewmodel/hot_key_vm.dart';
+import '../web/webview_page.dart';
 
 class HotKeyPage extends StatefulWidget {
   @override
@@ -122,7 +124,12 @@ class _HotKeyPageState extends State<HotKeyPage> {
             itemBuilder: (context, index) {
               var name = value.websiteList?[index].name ?? "";
               return _item(name, onTap: () {
-                RouteUtils.push(context, WebViewPage(title: name));
+                RouteUtils.push(context, WebViewPage(
+                  loadResource: value.websiteList?[index].link ?? "",
+                  webViewType: WebViewType.URL,
+                  showTitle: true,
+                  title: value.websiteList?[index].name ?? "",
+                ));
 
               });
             },

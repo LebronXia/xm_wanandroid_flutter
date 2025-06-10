@@ -11,7 +11,7 @@ import 'package:provider/provider.dart' as provider;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
 import 'package:xm_wanandroid_flutter/app/route/routes.dart';
-import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
+import 'package:xm_wanandroid_flutter/app/ui/route_param_page.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/favorite_use_case.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/home_vm.dart';
 import 'package:xm_wanandroid_flutter/domin/favorite_state.dart';
@@ -22,6 +22,8 @@ import '../../../domin/new_home_banner_data.dart';
 import '../../../widgets/custom_dialog.dart';
 import '../../../widgets/smart_refresh/smart_refresh_widget.dart';
 import '../../viewmodel/home_provider.dart';
+import '../web/webview_page.dart';
+import '../web/webview_widget.dart';
 
 class HomeListPage extends StatefulWidget {
   @override
@@ -29,10 +31,13 @@ class HomeListPage extends StatefulWidget {
     return _HomePageState();
   }
 }
+//回调Call
+typedef BannerClick = Function(String title, String url);
 
 class _HomePageState extends State<HomeListPage> {
   HomeViewModel viewModel = HomeViewModel();
   RefreshController refreshController = RefreshController();
+
 
   @override
   void initState() {
@@ -185,11 +190,18 @@ class _HomePageState extends State<HomeListPage> {
         onTap: () {
           //showCustomDialog();
           //showLoginRequiredDialog(context);
-          RouteUtils.pushForNamed(
-            context,
-            RoutePath.webViewPage,
-            arguments: {"name": "使用路由器"},
-          );
+          // RouteUtils.pushForNamed(
+          //   context,
+          //   RoutePath.routeParamPage,
+          //   arguments: {"name": "使用路由器"},
+          // );
+          RouteUtils.push(
+              context,
+              WebViewPage(
+                  loadResource: item.link ?? "",
+                  webViewType: WebViewType.URL,
+                  showTitle: true,
+                  title: item.title));
           // Navigator.pushNamed(context, RoutePath.webViewPage);
           // Navigator.push(context, MaterialPageRoute(builder: (context){
           //     return WebViewPage(title: "首页传值",);

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class WebViewPage extends StatefulWidget {
+class RouteParamPage extends StatefulWidget {
   final String title;
 
-  const WebViewPage({super.key, required this.title});
+  const RouteParamPage({super.key, required this.title});
 
   @override
   State<StatefulWidget> createState() {
@@ -14,7 +14,7 @@ class WebViewPage extends StatefulWidget {
 }
 
 
-class _WebViewPageState extends State<WebViewPage> {
+class _WebViewPageState extends State<RouteParamPage> {
 
   String? name;
 

@@ -28,6 +28,9 @@ class _DetailTabChildPageState extends ConsumerState<DetailTabChildPage> {
   void initState() {
     _refreshController = RefreshController();
     super.initState();
+    // 在下一个微任务中执行获取详情列表的操作。
+    // 这样就不会阻塞当前的构建过程（即当前帧的渲染）。
+    // 同时又能尽早执行数据加载（在事件循环的微任务阶段）。
     Future.microtask(() => ref.read(knowledgeDetailListNotifierProvider(widget.id.toString()).notifier).getDetailList());
   }
 

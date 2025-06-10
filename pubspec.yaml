@@ -72,12 +72,20 @@ dependencies:
   #替代sp数据本地存储
   hive: ^2.2.3
   #加载网络图片
-  cached_network_image: ^3.4.0
+  cached_network_image: ^3.2.2
   #https://pub.dev/packages/freezed/example
   #https://blog.einverne.info/post/2025/03/flutter-freezed-code-generator.html
   #https://github.com/rrousselGit/freezed/blob/master/resources/translations/zh_CN/README.md
   #基于 Dart 的代码生成功能，通过自动生成 data classes, tagged unions, nested classes 和 clone 代码模板
   freezed_annotation: ^3.0.0
+  # webview：基于原生webview封装的
+  flutter_inappwebview: ^6.1.5
+  # 显示html文本内容的组件
+  flutter_html: ^3.0.0-alpha.6
+  # 获取版本信息设备信息等
+  package_info_plus: ^4.0.2
+  device_info_plus: ^9.0.0
+  win32: ^5.0.0
 
 dev_dependencies:
   flutter_test:

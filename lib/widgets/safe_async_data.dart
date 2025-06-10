@@ -20,6 +20,25 @@ class SafeAsyncData<T> extends StatelessWidget {
   }
 }
 
+class AsyncValueWidget<T> extends StatelessWidget {
+  const AsyncValueWidget({
+    Key? key,
+    required this.value,
+    required this.data,
+  }) : super(key: key);
+  final AsyncValue<T> value;
+  final Widget Function(T) data;
+
+  @override
+  Widget build(BuildContext context) {
+    return value.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => const Center(child: Text('加载失败')),
+      data: (data) => this.data(data),
+    );
+  }
+}
+
 // void onButtonPressed() async {
 //   try {
 //     final banners = await ref.read(bannerServiceProvider.future);

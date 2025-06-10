@@ -184,13 +184,16 @@ class _WanAndroidApi implements WanAndroidApi {
   }
 
   @override
-  Future<Object> knowledgeDetailList(int pageCount, int? categoryId) async {
+  Future<KnowledgeDetailListModel> knowledgeDetailList(
+    String pageCount,
+    String? categoryId,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'cid': categoryId};
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<Object>(
+    final _options = _setStreamType<KnowledgeDetailListModel>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -200,8 +203,14 @@ class _WanAndroidApi implements WanAndroidApi {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch(_options);
-    final _value = _result.data;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late KnowledgeDetailListModel _value;
+    try {
+      _value = KnowledgeDetailListModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
     return _value;
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:xm_wanandroid_flutter/app/ui/home/home_list_page.dart';
+import 'package:xm_wanandroid_flutter/app/ui/knowledge/knowledge_details_tab_page.dart';
 import 'package:xm_wanandroid_flutter/app/ui/login/login_page.dart';
 import 'package:xm_wanandroid_flutter/app/ui/login/register_page.dart';
 import 'package:xm_wanandroid_flutter/app/ui/web_view_page.dart';
@@ -18,6 +19,8 @@ class Routes {
         return pageRoute(LoginPage(), settings: settings);
       case RoutePath.registerPage:
         return pageRoute(RegisterPage(), settings: settings);
+      case RoutePath.knowledge_details:
+        return pageRoute(KnowledgeDetailTabPage(), settings: settings);
     }
 
     return pageRoute(
@@ -52,4 +55,5 @@ class RoutePath {
   static const String webViewPage = "/web_view_page";
   static const String loginPage = "/login_page";
   static const String registerPage = "/register_page";
+  static const String knowledge_details = "/knowledge_details";
 }

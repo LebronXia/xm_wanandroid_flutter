@@ -19,7 +19,7 @@ class FavoriteNotifier extends _$FavoriteNotifier{
   FavoriteState build(String itemId, bool initialStatus){
     _itemId = itemId;
     _initialStatus = initialStatus;
-    log("初始化: ${_itemId}${_initialStatus}");
+    //log("初始化: ${_itemId}${_initialStatus}");
     return FavoriteState(itemId: itemId, isFavorite: initialStatus);
   }
 

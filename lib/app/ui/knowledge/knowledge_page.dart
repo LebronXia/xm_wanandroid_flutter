@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
+import 'package:xm_wanandroid_flutter/app/ui/knowledge/knowledge_details_tab_page.dart';
 import 'package:xm_wanandroid_flutter/app/viewmodel/knowledge_view_model.dart';
+import 'package:xm_wanandroid_flutter/domin/knowledge_detail_param.dart';
 import 'package:xm_wanandroid_flutter/widgets/common_style.dart';
 import 'package:xm_wanandroid_flutter/widgets/smart_refresh/smart_refresh_widget.dart';
 
@@ -71,7 +74,7 @@ class _KnowledgePageState extends ConsumerState<KnowledgePage> {
   Widget knowledgeItem(KnowledgeModel? item) {
     return GestureDetector(
       onTap: () {
-
+        RouteUtils.push(context, KnowledgeDetailTabPage(params: generalParams(item?.children)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
@@ -101,5 +104,16 @@ class _KnowledgePageState extends ConsumerState<KnowledgePage> {
       names.write("${element.name}");
     });
     return names.toString();
+  }
+
+  List<KnowledgeDetailParam> generalParams(List<Children>? children){
+      List<KnowledgeDetailParam> params = [];
+      children?.forEach((element){
+        KnowledgeDetailParam param = KnowledgeDetailParam(name: element.name, id: element.id.toString());
+
+        params.add(param);
+      });
+
+      return params;
   }
 }

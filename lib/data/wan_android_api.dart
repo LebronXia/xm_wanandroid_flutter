@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
+import 'package:xm_wanandroid_flutter/domin/knowledge_detail_list_model.dart';
 import 'package:xm_wanandroid_flutter/domin/knowledge_list_model.dart';
 import 'package:xm_wanandroid_flutter/domin/user_info_model.dart';
 
@@ -39,9 +40,9 @@ abstract class WanAndroidApi {
   Future<List<KnowledgeModel>> knowledgeList();
 
   @GET("article/list/{pageCount}/json")
-  Future<Object> knowledgeDetailList(
-    @Path("pageCount") int pageCount, // 定义路径参数
-    @Query("cid") int? categoryId, // 可选查询参数
+  Future<KnowledgeDetailListModel> knowledgeDetailList(
+    @Path("pageCount") String pageCount, // 定义路径参数
+    @Query("cid") String? categoryId, // 可选查询参数
   );
 
   //收藏站内文章

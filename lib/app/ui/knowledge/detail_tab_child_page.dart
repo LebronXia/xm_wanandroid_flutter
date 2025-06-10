@@ -10,6 +10,10 @@ import 'package:xm_wanandroid_flutter/widgets/common_style.dart';
 import 'package:xm_wanandroid_flutter/widgets/safe_async_data.dart';
 import 'package:xm_wanandroid_flutter/widgets/smart_refresh/smart_refresh_widget.dart';
 
+import '../../route/RouteUtils.dart';
+import '../web/webview_page.dart';
+import '../web/webview_widget.dart';
+
 class DetailTabChildPage extends ConsumerStatefulWidget {
   final String? id;
 
@@ -78,7 +82,13 @@ class _DetailTabChildPageState extends ConsumerState<DetailTabChildPage> {
 
   Widget _item(KnowledgeDetailItem item) {
     return GestureDetector(onTap: () {
-
+      RouteUtils.push(
+          context,
+          WebViewPage(
+              loadResource: item.link ?? "",
+              webViewType: WebViewType.URL,
+              showTitle: true,
+              title: item.title));
     },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 15.w),

@@ -114,13 +114,23 @@ class _HomePageState extends State<HomeListPage> {
                   pagination: const SwiperPagination(),
                   autoplay: true,
                   itemBuilder: (context, index) {
-                    return Container(
+                    return GestureDetector(onTap: (){
+                      RouteUtils.push(
+                          context,
+                          WebViewPage(
+                              loadResource: data[index].url.toString(),
+                              webViewType: WebViewType.URL,
+                              showTitle: true,
+                              title:  data[index].title));
+                    },
+                    child: Container(
                       height: 150.h,
                       color: Colors.lightBlue,
                       child: Image.network(
                         data[index].imagePath ?? "",
                         fit: BoxFit.fill,
                       ),
+                    ),
                     );
                   },
                   itemCount: data.length ?? 0,

@@ -66,6 +66,7 @@ dependencies:
   flutter_riverpod: ^2.0.0  # 核心库
   # 如果使用代码生成（如 AsyncNotifier）
   riverpod_annotation: ^2.0.0
+  #https://juejin.cn/post/7369856197514543139  goArount
   #路由跳转
   auto_route: ^10.1.0+1
   #https://pub.dev/packages/hive
@@ -86,6 +87,9 @@ dependencies:
   package_info_plus: ^4.0.2
   device_info_plus: ^9.0.0
   win32: ^5.0.0
+  #https://juejin.cn/post/7265110591634980919
+  #https://juejin.cn/post/7068212156369469471
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
   flutter_test:
@@ -103,7 +107,9 @@ dev_dependencies:
   injectable_generator: ^2.1.0  # 代码生成器
   # 如果使用代码生成
   riverpod_generator: ^2.0.0
+  #https://github.com/rrousselGit/freezed/blob/master/resources/translations/zh_CN/README.md
   freezed: ^3.0.4
+
 
 dependency_overrides: # 临时解决冲突
   shared_preferences_android: ^2.0.24

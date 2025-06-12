@@ -3,6 +3,7 @@ import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 import 'package:xm_wanandroid_flutter/domin/knowledge_detail_list_model.dart';
 import 'package:xm_wanandroid_flutter/domin/knowledge_list_model.dart';
+import 'package:xm_wanandroid_flutter/domin/search_list_model.dart';
 import 'package:xm_wanandroid_flutter/domin/user_info_model.dart';
 
 import '../domin/home_banner_data.dart';
@@ -52,5 +53,10 @@ abstract class WanAndroidApi {
   //取消收藏
   @POST("lg/uncollect_originId/{id}/json")
   Future<bool> unCollect(@Path("id") String id);
+
+  //搜索
+  @POST("article/query/{count}/json")
+  @FormUrlEncoded()
+  Future<SearchListModel> search(@Path("count") String id,  @Field('k') String? keyWord);
 
 }

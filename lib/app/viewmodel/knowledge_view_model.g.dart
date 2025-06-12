@@ -27,7 +27,7 @@ final getKnowledgeListProvider =
 typedef GetKnowledgeListRef =
     AutoDisposeFutureProviderRef<List<KnowledgeModel>>;
 String _$knowledgeDetailListNotifierHash() =>
-    r'a71cd241e20a230915ec6dfbd90dd3c6dfa02779';
+    r'b731460029a13db1548d20959bc855625dd7eaa6';
 
 /// Copied from Dart SDK
 class _SystemHash {

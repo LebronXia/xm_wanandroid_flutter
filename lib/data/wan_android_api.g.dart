@@ -268,6 +268,40 @@ class _WanAndroidApi implements WanAndroidApi {
     return _value;
   }
 
+  @override
+  Future<SearchListModel> search(String id, String? keyWord) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    final _data = {'k': keyWord};
+    _data.removeWhere((k, v) => v == null);
+    final _options = _setStreamType<SearchListModel>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/x-www-form-urlencoded',
+          )
+          .compose(
+            _dio.options,
+            'article/query/${id}/json',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late SearchListModel _value;
+    try {
+      _value = SearchListModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

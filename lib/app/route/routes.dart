@@ -5,6 +5,7 @@ import 'package:xm_wanandroid_flutter/app/ui/knowledge/knowledge_details_tab_pag
 import 'package:xm_wanandroid_flutter/app/ui/login/login_page.dart';
 import 'package:xm_wanandroid_flutter/app/ui/login/register_page.dart';
 import 'package:xm_wanandroid_flutter/app/ui/route_param_page.dart';
+import 'package:xm_wanandroid_flutter/app/ui/search/search_page.dart';
 import 'package:xm_wanandroid_flutter/app/ui/web/webview_page.dart';
 
 import '../ui/main_page.dart';
@@ -25,6 +26,8 @@ class Routes {
         return pageRoute(KnowledgeDetailTabPage(), settings: settings);
       case RoutePath.webViewPage:
         return pageRoute(WebViewPage(loadResource: "", webViewType: WebViewType.URL), settings: settings);
+      case RoutePath.searchPage:
+        return pageRoute(SearchPage(), settings: settings);
     }
 
     return pageRoute(
@@ -61,4 +64,5 @@ class RoutePath {
   static const String registerPage = "/register_page";
   static const String knowledge_details = "/knowledge_details";
   static const String webViewPage = "/web_view_page";
+  static const String searchPage = "/search_page";
 }

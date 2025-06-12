@@ -30,7 +30,7 @@ class RouteUtils {
   }
 
   ///根据路由路径跳转
-  static Future pushForNamed(
+  static Future pushFoItrNamed(
     BuildContext context,
     String name, {
     Object? arguments,

@@ -4,10 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:xm_wanandroid_flutter/app/route/RouteUtils.dart';
 import 'package:xm_wanandroid_flutter/app/ui/route_param_page.dart';
+import 'package:xm_wanandroid_flutter/app/ui/test/count/view.dart';
 import 'package:xm_wanandroid_flutter/app/ui/web/webview_widget.dart';
 
 import '../../../domin/search_hot_key.dart';
 import '../../viewmodel/hot_key_vm.dart';
+import '../search/search_page.dart';
 import '../web/webview_page.dart';
 
 class HotKeyPage extends StatefulWidget {
@@ -38,7 +40,7 @@ class _HotKeyPageState extends State<HotKeyPage> {
             child: Expanded(
               child: Column(
                 children: [_buildSectionTitle("搜索热词", true, onTap: (){
-
+                  RouteUtils.push(context, SearchPage());
                 }),
                   SizedBox(height: 20.h),
                   _searchHotKeyListView(),
@@ -106,7 +108,7 @@ class _HotKeyPageState extends State<HotKeyPage> {
           itemBuilder: (context, index) {
             var name = value.hotKeyList?[index].name ?? "";
             return _item(name, onTap: () {
-
+              RouteUtils.push(context, SearchPage(keyWord: name));
 
             });
           },
@@ -124,6 +126,7 @@ class _HotKeyPageState extends State<HotKeyPage> {
             itemBuilder: (context, index) {
               var name = value.websiteList?[index].name ?? "";
               return _item(name, onTap: () {
+               // RouteUtils.push(context, CountPage());
                 RouteUtils.push(context, WebViewPage(
                   loadResource: value.websiteList?[index].link ?? "",
                   webViewType: WebViewType.URL,

@@ -97,78 +97,50 @@ class _HomePageState extends State<HomeListPage> {
   }
 
   Widget _banner() {
+
+
     return Consumer(
+
+
       builder: (context, ref, _) {
+
+        Future.microtask(() => ref.read(bannerServiceNotifierProvider.notifier).bannerService());
         /// 这里可以传参“London”  AsyncValue<List<NewHomeBannerData>>
-        final bannerDataAsync = ref.watch(
-            bannerServiceProvider);
+        final bannerState = ref.watch(bannerServiceNotifierProvider);
         // final bannerDataAsync = ref.watch(
         //     bannerServiceProvider.future);
-        return bannerDataAsync.when(
-            data: (data) {
-              return SizedBox(
-                height: 150.h,
-                width: double.infinity,
-                child: Swiper(
-                  indicatorLayout: PageIndicatorLayout.NONE,
-                  pagination: const SwiperPagination(),
-                  autoplay: true,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(onTap: (){
-                      RouteUtils.push(
-                          context,
-                          WebViewPage(
-                              loadResource: data[index].url.toString(),
-                              webViewType: WebViewType.URL,
-                              showTitle: true,
-                              title:  data[index].title));
-                    },
-                    child: Container(
-                      height: 150.h,
-                      color: Colors.lightBlue,
-                      child: Image.network(
-                        data[index].imagePath ?? "",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    );
-                  },
-                  itemCount: data.length ?? 0,
+        return SizedBox(
+          height: 150.h,
+          width: double.infinity,
+          child: Swiper(
+            indicatorLayout: PageIndicatorLayout.NONE,
+            pagination: const SwiperPagination(),
+            autoplay: true,
+            itemBuilder: (context, index) {
+              return GestureDetector(onTap: (){
+                RouteUtils.push(
+                    context,
+                    WebViewPage(
+                        loadResource: bannerState.bannerList[index].url.toString(),
+                        webViewType: WebViewType.URL,
+                        showTitle: true,
+                        title:  bannerState.bannerList[index].title));
+              },
+                child: Container(
+                  height: 150.h,
+                  color: Colors.lightBlue,
+                  child: Image.network(
+                    bannerState.bannerList[index].imagePath ?? "",
+                    fit: BoxFit.fill,
+                  ),
                 ),
               );
             },
-            error:  (error, stackTrace) => Center(
-              child: Text("加载失败: ${error.toString()}"),
-            ),
-            loading: () => Center(
-              child: CircularProgressIndicator(),
-        ),);
+            itemCount: bannerState.bannerList.length ?? 0,
+          ),
+        );
       },
     );
-    // return Consumer<HomeViewModel>(
-    //   builder: (context, vm, child) {
-    //     return SizedBox(
-    //       height: 150.h,
-    //       width: double.infinity,
-    //       child: Swiper(
-    //         indicatorLayout: PageIndicatorLayout.NONE,
-    //         pagination: const SwiperPagination(),
-    //         autoplay: true,
-    //         itemBuilder: (context, index) {
-    //           return Container(
-    //             height: 150.h,
-    //             color: Colors.lightBlue,
-    //             child: Image.network(
-    //               vm.bannerList?[index].imagePath ?? "",
-    //               fit: BoxFit.fill,
-    //             ),
-    //           );
-    //         },
-    //         itemCount: vm.bannerList?.length ?? 0,
-    //       ),
-    //     );
-    //   },
-    // );
   }
 
   Widget _homeListView() {
@@ -194,7 +166,6 @@ class _HomePageState extends State<HomeListPage> {
       name = item?.shareUser ?? "";
     }
     return Consumer(builder: (_, WidgetRef ref, __) {
-      final provider = ref.watch(bannerServiceProvider);
 
       return GestureDetector(
         onTap: () {

@@ -90,6 +90,10 @@ dependencies:
   #https://juejin.cn/post/7265110591634980919
   #https://juejin.cn/post/7068212156369469471
   flutter_bloc: ^9.1.1
+  #Equatable 已为你覆写 == 和 hashCode
+  equatable: ^2.0.0
+
+
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:fpdart/fpdart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:xm_wanandroid_flutter/data/api_provider.dart';
 import 'package:xm_wanandroid_flutter/domin/favorite_state.dart';
@@ -37,5 +38,16 @@ class FavoriteNotifier extends _$FavoriteNotifier{
       state = state.copyWith(isLoading: false);
     }
   }
+
+  // Future<Either<T, Failure>> eitherOf<T>({
+  //   required Future<T> Function() request,
+  // }) async {
+  //   try {
+  //     final result = await request();
+  //     return left(result); // 成功 - 返回Left
+  //   } catch (e) {
+  //     return right(Failure.fromException(e)); // 失败 - 返回Right
+  //   }
+  // }
 
 }
